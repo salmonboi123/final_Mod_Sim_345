@@ -10,5 +10,5 @@ class Sink : public cSimpleModule {
 Define_Module(Sink);
 
 void Sink::handleMessage(cMessage *msg) {
-    delete msg; // This is where the customer finally leaves the DMV
+    delete msg; // This is where we have the customer finally leaves the DMV
 }
