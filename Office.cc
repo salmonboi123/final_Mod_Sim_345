@@ -7,7 +7,7 @@ class Office : public cSimpleModule {
     cQueue queue;
     cMessage *msgServiced = nullptr;
 
-    // Signals for data collection
+    // Here we have the signals for data collection
     simsignal_t waitTimeSignal;
     simsignal_t qLenSignal;
 
@@ -20,25 +20,25 @@ class Office : public cSimpleModule {
 Define_Module(Office);
 
 void Office::initialize() {
-    // These strings must match the ones in the brackets in the NED file
+    // Have to be the same as the NED file so so errors happen
     waitTimeSignal = registerSignal("waitTime");
     qLenSignal = registerSignal("queueLen");
 }
 
 void Office::handleMessage(cMessage *msg) {
-    if (msg->isSelfMessage()) { // Service complete
+    if (msg->isSelfMessage()) { // The service is complete
         send(msgServiced, "out");
         msgServiced = nullptr;
 
         if (!queue.isEmpty()) {
             cMessage *nextCustomer = (cMessage *)queue.pop();
-            // Emit the time they spent waiting in the queue
+            // Here we emit the time they spent waiting in the queue
             emit(waitTimeSignal, simTime() - nextCustomer->getTimestamp());
             startService(nextCustomer);
         }
         emit(qLenSignal, queue.getLength());
     } else {
-        // Customer arrives - stamp the time so we can calculate wait time later
+        // Here the customer arrives - we stamp the time so we can calculate wait time later
         msg->setTimestamp();
 
         if (msgServiced) {

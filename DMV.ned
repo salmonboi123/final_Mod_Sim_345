@@ -1,9 +1,9 @@
-// 1. Declare the simple modules so NED knows they exist
+// Here we declare everything we need to use
 simple Source {
     parameters:
         volatile double interArrivalTime @unit(s);
     gates:
-        output out[]; // Change this to an array
+        output out[]; // Array for later use
 }
 
 simple Office {
@@ -11,7 +11,7 @@ simple Office {
         volatile double serviceTime @unit(s);
         @display("i=block/queue;q=queue");
 
-        // --- ADD THE SIGNAL DECLARATION HERE ---
+        // Signal Delcaration is located here
         @signal[waitTime](type="simtime_t");
         @signal[queueLen](type="long");
 
@@ -24,10 +24,10 @@ simple Office {
 
 simple Sink {
     gates:
-        input in[]; // Add brackets here to allow multiple connections
+        input in[]; // We need mulptiple connections
 }
 
-// 2. Now define your network
+// Network Definition
 network DMV_Advanced {
     parameters:
         int numClerks = default(3);
@@ -44,6 +44,6 @@ network DMV_Advanced {
     connections:
     for i=0..numClerks-1 {
         arrival.out++ --> clerk[i].in;
-        clerk[i].out --> exit.in++; // Add the ++ here
+        clerk[i].out --> exit.in++; // How we add the needed information to the vector
     }
 }
