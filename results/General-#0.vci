@@ -1,0 +1,58 @@
+file 1761 1778107254                                            
+version 3
+run General-0-20260506-18:40:33-1397
+attr configname General
+attr datetime 20260506-18:40:33
+attr datetimef 20260506-184033
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsd ""
+attr iterationvarsf ""
+attr measurement ""
+attr network DMV_Advanced
+attr processid 1397
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+config network DMV_Advanced
+config cpu-time-limit 60s
+config *.numClerks 3
+config *.arrival.interArrivalTime exponential(2s)
+config *.clerk[*].serviceTime exponential(5s)
+config **.waitTime.result-recording-modes +vector
+config **.queueLen.result-recording-modes +vector
+
+vector 0 DMV_Advanced.clerk[0] waitTime:vector ETV
+attr recordingmode vector
+attr source waitTime
+attr title "Wait Time"
+vector 1 DMV_Advanced.clerk[0] queueLen:vector ETV
+attr recordingmode vector
+attr source queueLen
+attr title "Queue Length"
+vector 2 DMV_Advanced.clerk[1] waitTime:vector ETV
+attr recordingmode vector
+attr source waitTime
+attr title "Wait Time"
+vector 3 DMV_Advanced.clerk[1] queueLen:vector ETV
+attr recordingmode vector
+attr source queueLen
+attr title "Queue Length"
+vector 4 DMV_Advanced.clerk[2] waitTime:vector ETV
+attr recordingmode vector
+attr source waitTime
+attr title "Wait Time"
+vector 5 DMV_Advanced.clerk[2] queueLen:vector ETV
+attr recordingmode vector
+attr source queueLen
+attr title "Queue Length"
+0	1417 21 12 12 8.53277801802 8.53277801802 1 0 0 0 0
+1	1438 23 17 17 10.950788542762 10.950788542762 1 0 0 0 0
+2	1461 55 2 5 1.591749009132 6.207864666486 2 0 0.896907233205 0.896907233205 0.80444258497545
+3	1516 65 4 19 5.310957433281 11.398661169805 3 0 1 1 1
+4	1581 91 8 21 7.264970286068 12.27799772301 3 0 3.108507423306 3.723264725228 10.040744941015
+5	1672 88 10 21 8.416008679834 12.27799772301 4 0 1 2 2
+
