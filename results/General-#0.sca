@@ -1,0 +1,66 @@
+version 3
+run General-0-20260506-18:40:33-1397
+attr configname General
+attr datetime 20260506-18:40:33
+attr datetimef 20260506-184033
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsd ""
+attr iterationvarsf ""
+attr measurement ""
+attr network DMV_Advanced
+attr processid 1397
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+config network DMV_Advanced
+config cpu-time-limit 60s
+config *.numClerks 3
+config *.arrival.interArrivalTime exponential(2s)
+config *.clerk[*].serviceTime exponential(5s)
+config **.waitTime.result-recording-modes +vector
+config **.queueLen.result-recording-modes +vector
+
+par DMV_Advanced.arrival typename "\"Source\""
+par DMV_Advanced.arrival interArrivalTime exponential(2s)
+attr unit s
+par DMV_Advanced.clerk[0] typename "\"Office\""
+par DMV_Advanced.clerk[0] serviceTime exponential(5s)
+attr unit s
+scalar DMV_Advanced.clerk[0] queueLen:max 0
+attr recordingmode max
+attr source queueLen
+attr title "Queue Length, max"
+scalar DMV_Advanced.clerk[0] waitTime:mean 0
+attr recordingmode mean
+attr source waitTime
+attr title "Wait Time, mean"
+par DMV_Advanced.clerk[1] typename "\"Office\""
+par DMV_Advanced.clerk[1] serviceTime exponential(5s)
+attr unit s
+scalar DMV_Advanced.clerk[1] queueLen:max 1
+attr recordingmode max
+attr source queueLen
+attr title "Queue Length, max"
+scalar DMV_Advanced.clerk[1] waitTime:mean 0.4484536166025
+attr recordingmode mean
+attr source waitTime
+attr title "Wait Time, mean"
+par DMV_Advanced.clerk[2] typename "\"Office\""
+par DMV_Advanced.clerk[2] serviceTime exponential(5s)
+attr unit s
+scalar DMV_Advanced.clerk[2] queueLen:max 1
+attr recordingmode max
+attr source queueLen
+attr title "Queue Length, max"
+scalar DMV_Advanced.clerk[2] waitTime:mean 1.2410882417427
+attr recordingmode mean
+attr source waitTime
+attr title "Wait Time, mean"
+par DMV_Advanced.exit typename "\"Sink\""
+par DMV_Advanced typename "\"DMV_Advanced\""
+par DMV_Advanced numClerks 3
+

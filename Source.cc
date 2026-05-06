@@ -14,16 +14,24 @@ class Source : public cSimpleModule {
 Define_Module(Source);
 
 void Source::initialize() {
-    // Create a timer to trigger the first arrival
+    // Here we create a timer to trigger the first customer arrival
     timerEvent = new cMessage("nextArrival");
     scheduleAt(simTime() + par("interArrivalTime"), timerEvent);
 }
 
 void Source::handleMessage(cMessage *msg) {
-    // Create a new customer and send them to the Office
-    cMessage *customer = new cMessage("Customer");
-    send(customer, "out");
+    if (msg == timerEvent) {
+        cMessage *customer = new cMessage("Customer");
 
-    // Schedule the next customer arrival
-    scheduleAt(simTime() + par("interArrivalTime"), msg);
+        // Here we are picking a random clerk index (0 to numClerks-1)
+        int numGates = gateSize("out");
+        int randomClerk = intrand(numGates);
+
+        // Here we send to that specific gate index
+        send(customer, "out", randomClerk);
+
+        scheduleAt(simTime() + par("interArrivalTime"), timerEvent);
+    } else {
+        delete msg;
+    }
 }
