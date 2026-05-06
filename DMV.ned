@@ -1,48 +1,49 @@
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-
-simple Office {
-    parameters:
-        volatile double serviceTime @unit(s);
-    gates:
-        input in;
-        output out;
-}
-
+// 1. Declare the simple modules so NED knows they exist
 simple Source {
     parameters:
         volatile double interArrivalTime @unit(s);
     gates:
+        output out[]; // Change this to an array
+}
+
+simple Office {
+    parameters:
+        volatile double serviceTime @unit(s);
+        @display("i=block/queue;q=queue");
+
+        // --- ADD THE SIGNAL DECLARATION HERE ---
+        @signal[waitTime](type="simtime_t");
+        @signal[queueLen](type="long");
+
+        @statistic[waitTime](title="Wait Time"; source="waitTime"; record=vector,mean);
+        @statistic[queueLen](title="Queue Length"; source="queueLen"; record=vector,max);
+    gates:
+        input in;
         output out;
 }
 
 simple Sink {
     gates:
-        input in;
+        input in[]; // Add brackets here to allow multiple connections
 }
 
-network DMV {
+// 2. Now define your network
+network DMV_Advanced {
+    parameters:
+        int numClerks = default(3);
     submodules:
         arrival: Source {
-            interArrivalTime = exponential(2s);
+            @display("p=50,100");
         }
-        clerk: Office {
-            serviceTime = exponential(1.5s);
+        clerk[numClerks]: Office {
+            @display("p=150,100,column,80");
         }
-        exit: Sink;
+        exit: Sink {
+            @display("p=250,100");
+        }
     connections:
-        arrival.out --> clerk.in;
-        clerk.out --> exit.in;
+    for i=0..numClerks-1 {
+        arrival.out++ --> clerk[i].in;
+        clerk[i].out --> exit.in++; // Add the ++ here
+    }
 }
