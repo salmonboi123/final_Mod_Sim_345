@@ -23,12 +23,8 @@ void Source::handleMessage(cMessage *msg) {
     if (msg == timerEvent) {
         cMessage *customer = new cMessage("Customer");
 
-        // Here we are picking a random clerk index (0 to numClerks-1)
-        int numGates = gateSize("out");
-        int randomClerk = intrand(numGates);
-
-        // Here we send to that specific gate index
-        send(customer, "out", randomClerk);
+        // Simple send: just send it to the only 'out' gate available
+        send(customer, "out");
 
         scheduleAt(simTime() + par("interArrivalTime"), timerEvent);
     } else {

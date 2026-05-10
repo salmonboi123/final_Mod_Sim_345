@@ -1,8 +1,8 @@
 version 3
-run General-0-20260506-18:40:33-1397
+run General-0-20260510-15:56:08-483
 attr configname General
-attr datetime 20260506-18:40:33
-attr datetimef 20260506-184033
+attr datetime 20260510-15:56:08
+attr datetimef 20260510-155608
 attr experiment General
 attr inifile omnetpp.ini
 attr iterationvars ""
@@ -10,7 +10,7 @@ attr iterationvarsd ""
 attr iterationvarsf ""
 attr measurement ""
 attr network DMV_Advanced
-attr processid 1397
+attr processid 483
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -23,44 +23,43 @@ config *.arrival.interArrivalTime exponential(2s)
 config *.clerk[*].serviceTime exponential(5s)
 config **.waitTime.result-recording-modes +vector
 config **.queueLen.result-recording-modes +vector
+config *.licenseClerk[*].serviceTime exponential(10s)
+config *.regClerk[*].serviceTime exponential(5s)
 
 par DMV_Advanced.arrival typename "\"Source\""
 par DMV_Advanced.arrival interArrivalTime exponential(2s)
 attr unit s
-par DMV_Advanced.clerk[0] typename "\"Office\""
-par DMV_Advanced.clerk[0] serviceTime exponential(5s)
+par DMV_Advanced.classifier typename "\"Classifier\""
+par DMV_Advanced.licenseClerk[0] typename "\"Office\""
+par DMV_Advanced.licenseClerk[0] serviceTime exponential(10s)
 attr unit s
-scalar DMV_Advanced.clerk[0] queueLen:max 0
-attr recordingmode max
-attr source queueLen
-attr title "Queue Length, max"
-scalar DMV_Advanced.clerk[0] waitTime:mean 0
+scalar DMV_Advanced.licenseClerk[0] waitTime:mean -nan
 attr recordingmode mean
 attr source waitTime
 attr title "Wait Time, mean"
-par DMV_Advanced.clerk[1] typename "\"Office\""
-par DMV_Advanced.clerk[1] serviceTime exponential(5s)
+par DMV_Advanced.licenseClerk[1] typename "\"Office\""
+par DMV_Advanced.licenseClerk[1] serviceTime exponential(10s)
 attr unit s
-scalar DMV_Advanced.clerk[1] queueLen:max 1
-attr recordingmode max
-attr source queueLen
-attr title "Queue Length, max"
-scalar DMV_Advanced.clerk[1] waitTime:mean 0.4484536166025
+scalar DMV_Advanced.licenseClerk[1] waitTime:mean -nan
 attr recordingmode mean
 attr source waitTime
 attr title "Wait Time, mean"
-par DMV_Advanced.clerk[2] typename "\"Office\""
-par DMV_Advanced.clerk[2] serviceTime exponential(5s)
+par DMV_Advanced.regClerk[0] typename "\"Office\""
+par DMV_Advanced.regClerk[0] serviceTime exponential(5s)
 attr unit s
-scalar DMV_Advanced.clerk[2] queueLen:max 1
-attr recordingmode max
-attr source queueLen
-attr title "Queue Length, max"
-scalar DMV_Advanced.clerk[2] waitTime:mean 1.2410882417427
+scalar DMV_Advanced.regClerk[0] waitTime:mean 0
+attr recordingmode mean
+attr source waitTime
+attr title "Wait Time, mean"
+par DMV_Advanced.regClerk[1] typename "\"Office\""
+par DMV_Advanced.regClerk[1] serviceTime exponential(5s)
+attr unit s
+scalar DMV_Advanced.regClerk[1] waitTime:mean 0
 attr recordingmode mean
 attr source waitTime
 attr title "Wait Time, mean"
 par DMV_Advanced.exit typename "\"Sink\""
 par DMV_Advanced typename "\"DMV_Advanced\""
-par DMV_Advanced numClerks 3
+par DMV_Advanced numLicenseClerks 2
+par DMV_Advanced numRegClerks 2
 
