@@ -1,8 +1,8 @@
 version 3
-run General-0-20260506-18:40:33-1397
+run General-0-20260510-15:56:08-483
 attr configname General
-attr datetime 20260506-18:40:33
-attr datetimef 20260506-184033
+attr datetime 20260510-15:56:08
+attr datetimef 20260510-155608
 attr experiment General
 attr inifile omnetpp.ini
 attr iterationvars ""
@@ -10,7 +10,7 @@ attr iterationvarsd ""
 attr iterationvarsf ""
 attr measurement ""
 attr network DMV_Advanced
-attr processid 1397
+attr processid 483
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -23,43 +23,26 @@ config *.arrival.interArrivalTime exponential(2s)
 config *.clerk[*].serviceTime exponential(5s)
 config **.waitTime.result-recording-modes +vector
 config **.queueLen.result-recording-modes +vector
+config *.licenseClerk[*].serviceTime exponential(10s)
+config *.regClerk[*].serviceTime exponential(5s)
 
-vector 0 DMV_Advanced.clerk[0] waitTime:vector ETV
+vector 0 DMV_Advanced.licenseClerk[0] waitTime:vector ETV
 attr recordingmode vector
 attr source waitTime
 attr title "Wait Time"
-vector 1 DMV_Advanced.clerk[0] queueLen:vector ETV
-attr recordingmode vector
-attr source queueLen
-attr title "Queue Length"
-vector 2 DMV_Advanced.clerk[1] waitTime:vector ETV
+vector 1 DMV_Advanced.licenseClerk[1] waitTime:vector ETV
 attr recordingmode vector
 attr source waitTime
 attr title "Wait Time"
-vector 3 DMV_Advanced.clerk[1] queueLen:vector ETV
-attr recordingmode vector
-attr source queueLen
-attr title "Queue Length"
-vector 4 DMV_Advanced.clerk[2] waitTime:vector ETV
+vector 2 DMV_Advanced.regClerk[0] waitTime:vector ETV
 attr recordingmode vector
 attr source waitTime
 attr title "Wait Time"
-vector 5 DMV_Advanced.clerk[2] queueLen:vector ETV
+vector 3 DMV_Advanced.regClerk[1] waitTime:vector ETV
 attr recordingmode vector
-attr source queueLen
-attr title "Queue Length"
-0	12	8.53277801802	0
-1	17	10.950788542762	0
-2	2	1.591749009132	0
-2	5	6.207864666486	0.896907233205
-3	4	5.310957433281	1
-3	5	6.207864666486	0
-3	19	11.398661169805	0
-4	8	7.264970286068	0
-4	13	9.030765981756	0.614757301922
-4	21	12.27799772301	3.108507423306
-5	10	8.416008679834	1
-5	13	9.030765981756	0
-5	16	9.169490299704	1
-5	21	12.27799772301	0
+attr source waitTime
+attr title "Wait Time"
+2	3	1.591749009132	0
+2	13	7.291960457869	0
+3	6	3.3888697861	0
 
