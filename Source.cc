@@ -23,8 +23,9 @@ void Source::handleMessage(cMessage *msg) {
     if (msg == timerEvent) {
         cMessage *customer = new cMessage("Customer");
 
-        // Simple send: just send it to the only 'out' gate available
-        send(customer, "out");
+        // Pick one of the 10 clerks at random
+        int n = gateSize("out");
+        send(customer, "out", intrand(n));
 
         scheduleAt(simTime() + par("interArrivalTime"), timerEvent);
     } else {
