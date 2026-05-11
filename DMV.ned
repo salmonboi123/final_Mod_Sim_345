@@ -3,7 +3,7 @@ simple Source {
     parameters:
         volatile double interArrivalTime @unit(s);
     gates:
-        output out;
+        output out[];
 }
 
 simple Classifier {
@@ -31,35 +31,19 @@ simple Sink {
 
 // 2. Define the network
 network DMV_Advanced {
-
     parameters:
-        int numLicenseClerks = default(2);
-        int numRegClerks = default(2);
+        int totalClerks = default(10); // 5 license + 5 registration merged
     submodules:
         arrival: Source;
-        classifier: Classifier;
-
-        // Two separate groups of servers
-        licenseClerk[numLicenseClerks]: Office;
-        regClerk[numRegClerks]: Office;
-
+        // Everyone goes here now
+        clerk[totalClerks]: Office {
+            @display("p=150,100,column,40");
+        }
         exit: Sink;
     connections:
-        arrival.out --> classifier.in;
-
-        // Routing from classifier to specialized groups
-        for i=0..numLicenseClerks-1 {
-            classifier.outLicense++ --> licenseClerk[i].in;
-        }
-        for i=0..numRegClerks-1 {
-            classifier.outRegistration++ --> regClerk[i].in;
-        }
-
-        // All clerks go to the same exit
-        for i=0..numLicenseClerks-1 {
-            licenseClerk[i].out --> exit.in++;
-        }
-        for i=0..numRegClerks-1 {
-            regClerk[i].out --> exit.in++;
+        for i=0..totalClerks-1 {
+            // arrival needs to be a gate vector again to talk to all 10
+            arrival.out++ --> clerk[i].in;
+            clerk[i].out --> exit.in++;
         }
 }
